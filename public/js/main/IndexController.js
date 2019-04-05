@@ -2,6 +2,13 @@ import PostsView from './views/Posts';
 import ToastsView from './views/Toasts';
 import idb from 'idb';
 
+/* O construtor IndexController é executado em cada carregamento de página (index.js:16).
+ * PostsView nos ajuda a atualizar os POSTs da página.
+ * ToastsView nos ajuda a exibir mensagens de erro.
+ * _openSocket() inicia uma conexão de Socket.
+
+*/
+
 export default function IndexController(container) {
   this._container = container;
   this._postsView = new PostsView(this._container);
@@ -13,6 +20,13 @@ export default function IndexController(container) {
 
 IndexController.prototype._registerServiceWorker = function() {
   // TODO: register service worker
+  if (!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('Registration Worked!');
+  }).catch(function() {
+    console.log('Registration failed!');
+  });
 };
 
 // open a connection to the server for live updates
